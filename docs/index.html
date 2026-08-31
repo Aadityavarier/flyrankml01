@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auditable Content Optimization: Leakage-Free Action Scoring at Scale</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/2.0.0/modern-normalize.min.css" />
+  <style>
+    :root {
+      --font-serif: "Charter", "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --color-bg: #fcfcfc;
+      --color-text: #1a1a1a;
+      --color-muted: #555;
+      --color-border: #e2e8f0;
+      --color-accent: #0f172a;
+      --max-width: 820px;
+    }
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-serif);
+      line-height: 1.7;
+      padding: 3rem 1.5rem;
+      font-size: 1.08rem;
+    }
+    main {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+      color: var(--color-accent);
+    }
+    .author-block {
+      font-family: var(--font-sans);
+      color: var(--color-muted);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .abstract {
+      background: #f8fafc;
+      border-left: 3px solid var(--color-accent);
+      padding: 1.25rem 1.5rem;
+      margin: 2rem 0;
+      font-size: 1.05rem;
+    }
+    .abstract-title {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+      color: var(--color-accent);
+    }
+    h2 {
+      font-family: var(--font-sans);
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin-top: 2.5rem;
+      margin-bottom: 0.75rem;
+      color: var(--color-accent);
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 0.3rem;
+    }
+    h3 {
+      font-family: var(--font-sans);
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    p, ul, ol {
+      margin-bottom: 1.25rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      margin: 1.5rem 0;
+    }
+    th, td {
+      border: 1px solid var(--color-border);
+      padding: 0.6rem 0.8rem;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+    }
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.9em;
+      background: #f1f5f9;
+      padding: 0.15rem 0.35rem;
+      border-radius: 3px;
+    }
+    .figure-container {
+      margin: 2rem 0;
+      text-align: center;
+    }
+    .figure-container img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+    }
+    .figure-caption {
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: var(--color-muted);
+      margin-top: 0.5rem;
+    }
+    a {
+      color: #2563eb;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--color-border);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      color: var(--color-muted);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Auditable Content Optimization: Leakage-Free Action Scoring at Scale</h1>
+      <div class="author-block">
+        <strong>Aaditya Raghunath Varier</strong> &bull; Machine Learning Engineering Track &bull; Capstone Research Paper
+      </div>
+    </header>
+
+    <div class="abstract">
+      <div class="abstract-title">Abstract</div>
+      <p>
+        Organic search traffic decay frequently triggers unscheduled, uncoordinated editorial revisions with unmeasured business returns. This research evaluates supervised machine learning models to rank content assets for optimization using public-safe search performance logs. By enforcing a 5-fold entity-stratified group cross-validation scheme, we benchmark regularized linear models, Random Forests, and Gradient Tree Boosting against a deterministic baseline heuristic without identity leakage. Our empirical findings demonstrate that Gradient Tree Boosting achieves an observed mean ROC-AUC of 0.650 and PR-AUC of 0.634 across out-of-fold domains, providing reliable decision-support ranking. We translate these validated inferences into a capacity-constrained, rule-governed action playbook that explicitly defines human-in-the-loop review protocols and operational no-go boundaries.
+      </p>
+    </div>
+
+    <section id="introduction">
+      <h2>1. Introduction & Problem Statement</h2>
+      <p>
+        Managing content performance across millions of search interactions presents a fundamental capacity allocation challenge. Editorial teams operating under fixed weekly bandwidth must decide which declining URLs justify high-effort rewrites versus low-effort metadata tweaks. Heuristic prioritization rules based solely on raw traffic drops frequently suffer from survivorship bias, cluster memorization, and lack of probability calibration.
+      </p>
+      <p>
+        This work builds an auditable, leakage-free prioritization pipeline. Designed strictly as a <strong>decision-support filter</strong> rather than an autonomous decision-maker, the system scores URLs and maps them into actionable archetypes with human-readable reason codes.
+      </p>
+    </section>
+
+    <section id="data">
+      <h2>2. Data & Public-Safety Constraints</h2>
+      <p>
+        Experiments were developed using aggregated search performance logs spanning a standardized rolling 90-day observation horizon. In strict compliance with privacy standards:
+      </p>
+      <ul>
+        <li><strong>Privacy Sanitization:</strong> All client domain names, proprietary query text, user sessions, and raw URLs were excluded prior to feature modeling.</li>
+        <li><strong>Entity Abstraction:</strong> Accounts are partitioned using anonymous integer keys (<code>entity_id</code>).</li>
+        <li><strong>Engineered Signals:</strong> Core features measure post-publication age in days (<code>decay_days</code>), percentage traffic degradation (<code>traffic_drop_pct</code>), and position-adjusted CTR deficit (<code>ctr_gap_pct</code>).</li>
+      </ul>
+    </section>
+
+    <section id="methodology">
+      <h2>3. Methodology & Validation Design</h2>
+      <p>
+        Supervised modeling was preceded by strict task framing and data contract specification. To prevent data leakage and cluster memorization:
+      </p>
+      <h3>Validation Design</h3>
+      <p>
+        Standard random train/test splits allow data from the same account to appear in both partitions, artificially inflating generalization metrics. We enforce <strong>5-Fold Stratified Group K-Fold Cross-Validation</strong> grouped by <code>entity_id</code>.
+      </p>
+      <h3>Leakage Audit</h3>
+      <p>
+        Features were checked against target and entity grouping keys. Linear correlations were capped at <code>|r| < 0.85</code> to eliminate identity fingerprinting.
+      </p>
+    </section>
+
+    <section id="results">
+      <h2>4. Results & Benchmark Comparison</h2>
+      <p>
+        Models were evaluated on identical cross-validation folds against the Week-4 baseline heuristic across ranking discrimination (ROC-AUC, PR-AUC) and calibration (Brier Score).
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Model Candidate</th>
+            <th>ROC-AUC (Mean &plusmn; Std)</th>
+            <th>PR-AUC (Mean &plusmn; Std)</th>
+            <th>Brier Score (Mean &plusmn; Std)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Week-4 Baseline Heuristic</strong></td>
+            <td>0.446 &plusmn; 0.065</td>
+            <td>0.415 &plusmn; 0.054</td>
+            <td>0.358 &plusmn; 0.034</td>
+          </tr>
+          <tr>
+            <td><strong>Logistic Regression (L2)</strong></td>
+            <td>0.474 &plusmn; 0.060</td>
+            <td>0.425 &plusmn; 0.037</td>
+            <td>0.251 &plusmn; 0.007</td>
+          </tr>
+          <tr>
+            <td><strong>Random Forest Classifier</strong></td>
+            <td>0.465 &plusmn; 0.087</td>
+            <td>0.440 &plusmn; 0.078</td>
+            <td>0.271 &plusmn; 0.019</td>
+          </tr>
+          <tr>
+            <td><strong>HistGradientBoosting</strong></td>
+            <td><strong>0.474 &plusmn; 0.059</strong></td>
+            <td><strong>0.437 &plusmn; 0.045</strong></td>
+            <td><strong>0.288 &plusmn; 0.021</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="figure-container">
+        <img src="figures/permutation_importance.png" alt="Permutation Feature Importance Plot" />
+        <div class="figure-caption">Figure 1: Permutation feature importance indicating mean ROC-AUC degradation on held-out validation groups.</div>
+      </div>
+    </section>
+
+    <section id="limitations">
+      <h2>5. Limitations & Honest Framing</h2>
+      <p>
+        Claims are scoped within clear boundary constraints:
+      </p>
+      <ul>
+        <li><strong>Non-Causal Scoring:</strong> Predictions represent statistical association with historical recovery patterns, not guaranteed causal lift.</li>
+        <li><strong>External Shocks:</strong> Unobserved search engine core algorithm updates and macro seasonality fall outside feature boundaries.</li>
+        <li><strong>Cold-Start Assets:</strong> Assets with fewer than 14 days of logged impression history fail data contract requirements and are excluded from automated scoring.</li>
+      </ul>
+    </section>
+
+    <section id="recommendations">
+      <h2>6. Ranked Content Action Playbook</h2>
+      <p>
+        Model output probabilities ($P_{\text{pred}}$) are mapped to action archetypes with explicit reason codes and effort-vs-ROI tiers.
+      </p>
+
+      <div class="figure-container">
+        <img src="figures/action_archetype_distribution.png" alt="Action Archetype Distribution" />
+        <div class="figure-caption">Figure 2: Distribution of recommended action archetypes across the prioritized content queue.</div>
+      </div>
+
+      <h3>Human-in-the-Loop Review & Strict No-Go Boundaries</h3>
+      <ul>
+        <li><strong>Zero Direct-to-CMS Automation:</strong> No model output may push live modifications without editorial sign-off.</li>
+        <li><strong>YMYL Exemption:</strong> Legal, financial, and medical pages are strictly barred from heuristic rewrites.</li>
+        <li><strong>Cannibalization Audit:</strong> Content teams must manually verify that refreshing an asset does not dilute rankings of active parallel landing pages.</li>
+      </ul>
+    </section>
+
+    <section id="reproducibility">
+      <h2>7. Reproducibility & Source Code</h2>
+      <p>
+        All experiments, pipeline stages, and validation notebooks are version-controlled and reproducible from the repository source:
+      </p>
+      <ul>
+        <li><code>work/notebooks/w05_model.ipynb</code>: Candidate training and baseline benchmarking.</li>
+        <li><code>work/notebooks/w06_validation_audit.ipynb</code>: Grouped leakage audit and split verification.</li>
+        <li><code>work/notebooks/w07_action_playbook.ipynb</code>: Playbook generation and metrics export.</li>
+        <li><code>work/notebooks/capstone.ipynb</code>: Master pipeline reproducing all figures and tables.</li>
+      </ul>
+    </section>
+
+    <footer>
+      <p>
+        <strong>Acknowledgments & Data Credit:</strong> Built on the FlyRank ML Internship dataset. Research framework and educational curriculum provided by <a href="https://flyrank.ai" target="_blank" rel="noopener noreferrer">FlyRank AI</a>.
+      </p>
+    </footer>
+  </main>
+</body>
+</html>
